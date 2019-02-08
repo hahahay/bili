@@ -80,15 +80,18 @@ def play_video_1(proxy, av, t):
     chrome_options = Options()
     chrome_options.add_argument("--proxy-server=http://{0}".format(proxy))
     chrome_options.add_argument('user-agent={0}'.format(ua))
-
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
     drive = webdriver.Chrome(options=chrome_options)
     # drive = webdriver.Chrome()
     drive.set_window_size(240, 480)
     av_url = "https://www.bilibili.com/video/{0}".format(av)
-    print(av_url)
+    # print(av_url)
 
     # drive.get("https://www.bilibili.com/video/av41724649/")
     try:
+        drive.get("https://www.bilibili.com/")
+        time.sleep(3)
         drive.get(av_url)
         video = WebDriverWait(drive, 10, 0.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id='bofqi']/div/div[2]/video")))   # 找到视频
         url = drive.execute_script("return arguments[0].currentSrc;", video)  # 打印视频地址
@@ -127,7 +130,7 @@ def get_proxy(n):
 
 
 def play(av, n):
-    t = random.randint(60, 300)
+    t = random.randint(5, 12)
     proxy_list = get_proxy(n)
     executor = ThreadPoolExecutor(max_workers=n)
     play_video_av = partial(play_video_1, av=av, t=t)
@@ -137,8 +140,12 @@ def play(av, n):
 
 
 # av = "av30639623"
-# av = "av41722047"
-av = "av35829237"
+
+# 南山南
+av = "av25758075"
+
+# 一生所爱
+# av = "av35829237"
 n = 8
 loop = 1000
 
