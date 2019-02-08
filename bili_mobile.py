@@ -10,9 +10,9 @@ from selenium.webdriver.common.by import By
 # headless version
 
 chrome_options = Options()
-# chrome_options.add_argument('--headless')
-# chrome_options.add_argument('--disable-gpu')
-# drive = webdriver.Chrome(chrome_options=chrome_options)
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--disable-gpu')
+drive = webdriver.Chrome(chrome_options=chrome_options)
 
 ua_list = [
     'MQQBrowser/26 Mozilla/5.0 (Linux; U; Android 2.3.7; zh-cn; MB200 Build/GRJ22; CyanogenMod-7) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1',
@@ -33,13 +33,16 @@ ua_list = [
     'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16A366 MicroMessenger/6.7.3(0x16070321) NetType/4G Language/zh_CN'
 ]
 
-chrome_options.add_argument('user-agent={0}'.format(ua_list[15]))
+chrome_options.add_argument('user-agent={0}'.format(ua_list[9]))
 
 drive = webdriver.Chrome(options=chrome_options)
 drive.set_window_size(240, 400)
-
+drive.get("https://www.bilibili.com/")
+time.sleep(3)
+cookies = drive.get_cookies()
+print(cookies)
 # drive.get("https://www.bilibili.com/video/av41724649/")
-drive.get("https://www.bilibili.com/video/av41725006/")
+drive.get("https://www.bilibili.com/video/av25758075/")
 video = WebDriverWait(drive, 10, 0.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id='bofqi']/div/div[2]/video")))  # 找到视频
 url = drive.execute_script("return arguments[0].currentSrc;", video)  # 打印视频地址
 print(url)
@@ -49,12 +52,12 @@ player2 = drive.find_elements_by_xpath("//*[@id='bofqi']/div/div[2]/div/div[4]/i
 
 print("start")
 # drive.execute_script("return arguments[0].play()", video)  # 开始播放
-time.sleep(16)
+time.sleep(15)
 
 print("stop")
 drive.execute_script("return arguments[0].pause()", video)  # 暂停
 
-# drive.close()
+drive.close()
 
 # drive.quit()
 
