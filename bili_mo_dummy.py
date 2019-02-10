@@ -80,8 +80,8 @@ def play_video_1(proxy, av, t):
     chrome_options = Options()
     chrome_options.add_argument("--proxy-server=http://{0}".format(proxy))
     chrome_options.add_argument('user-agent={0}'.format(ua))
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--disable-gpu')
+    #chrome_options.add_argument('--headless')
+    #hrome_options.add_argument('--disable-gpu')
     drive = webdriver.Chrome(options=chrome_options)
     # drive = webdriver.Chrome()
     drive.set_window_size(240, 480)
@@ -105,15 +105,24 @@ def play_video_1(proxy, av, t):
     try:
         drive.get("https://www.bilibili.com/")
         time.sleep(3)
+
+        drive.get(dummy_url)
+        video = WebDriverWait(drive, 5, 0.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id='bofqi']/div/div[2]/video")))   # 找到视频
+
+        print("start dummy")
+        drive.find_elements_by_xpath("//*[@id='bofqi']/div/div[2]/div/div[4]/i")[0].click()
+        time.sleep(5)
+
+        print("stop dummy")
+        drive.execute_script("return arguments[0].pause()", video)  # 暂停
+
         drive.get(av_url)
         video = WebDriverWait(drive, 10, 0.5).until(EC.presence_of_element_located((By.XPATH, "//*[@id='bofqi']/div/div[2]/video")))   # 找到视频
         url = drive.execute_script("return arguments[0].currentSrc;", video)  # 打印视频地址
         print(url)
 
         print("start")
-        # drive.execute_script("return arguments[0].play()", video)  # 开始播放
         drive.find_elements_by_xpath("//*[@id='bofqi']/div/div[2]/div/div[4]/i")[0].click()
-        # t = random.randint(30, 60)
         time.sleep(t)
 
         print("stop")
@@ -160,7 +169,7 @@ def play(av, n):
 
 # 一生所爱
 av = "av35829237"
-n = 16
+n = 8
 loop = 1000
 
 for i in range(loop):

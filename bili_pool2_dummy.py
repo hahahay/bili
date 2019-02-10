@@ -79,18 +79,46 @@ def play_video_1(proxy, av, t):
 
     drive = webdriver.Chrome(options=chrome_options)
     # drive = webdriver.Chrome()
-    av_url = "https://www.bilibili.com/video/{0}?from=search&seid=4669482125730411409".format(av)
+
+    urls = ["https://www.bilibili.com/video/{0}".format(av),
+            "https://www.bilibili.com/video/{0}?from=search&seid=11938748742388428234".format(av),
+            "https://www.bilibili.com/video/{0}/?spm_id_from=333.788.videocard.1".format(av),
+            "https://www.bilibili.com/video/{0}/?spm_id_from=333.788.videocard.6".format(av),
+            "https://www.bilibili.com/video/{0}?spm_id_from=333.334.b_62696c695f6d75736963.5".format(av)
+            ]
+    av_url = choice(urls)
+
+    dummy = ['av39176652', 'av12662385', 'av4147965', 'av27094419', 'av4147965', 'av6776634',
+             'av42756772', 'av15570627', 'av2336588'
+
+             ]
+    dummy_url = "https://www.bilibili.com/video/{0}".format(choice(dummy))
+
+    # av_url = "https://www.bilibili.com/video/{0}?from=search&seid=4669482125730411409".format(av)
     print(av_url)
 
     # drive.get("https://www.bilibili.com/video/av41724649/")
     try:
         drive.get("https://www.bilibili.com/")
         time.sleep(5)
+
+        drive.get(dummy_url)
+        video = WebDriverWait(drive, 10, 0.5).until(
+            EC.presence_of_element_located((By.XPATH, "//*[@id='bilibiliPlayer']/div[1]/div[1]/div[8]/video")))  # 找到视频
+
+        print("start dummy")
+        drive.execute_script("return arguments[0].play()", video)  # 开始播放
+        # t = random.randint(60, 190)
+        time.sleep(5)
+
+        print("stop dummy")
+        drive.execute_script("return arguments[0].pause()", video)  # 暂停
+
         drive.get(av_url)
         video = WebDriverWait(drive, 15, 0.5).until(
             EC.presence_of_element_located((By.XPATH, "//*[@id='bilibiliPlayer']/div[1]/div[1]/div[8]/video")))  # 找到视频
-        url = drive.execute_script("return arguments[0].currentSrc;", video)  # 打印视频地址
-        print(url)
+        # url = drive.execute_script("return arguments[0].currentSrc;", video)  # 打印视频地址
+        # print(url)
 
         print("start")
         drive.execute_script("return arguments[0].play()", video)  # 开始播放
@@ -134,13 +162,13 @@ def play(av, n):
 
 
 # 知否
-av = "av41113057"
+# av = "av41113057"
 
 # 一生所爱
 # av = "av35829237"
 
 # 大鱼
-# av = "av35826571"
+av = "av35826571"
 
 n = 8
 loop = 1000
