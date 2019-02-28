@@ -152,7 +152,7 @@ def get_proxy(n):
 
 
 def play(av, n):
-    t = random.randint(60, 280)
+    t = random.randint(60, 290)
     proxy_list = get_proxy(n)
     executor = ThreadPoolExecutor(max_workers=n)
     play_video_av = partial(play_video_1, av=av, t=t)
@@ -165,17 +165,18 @@ def play(av, n):
 # av = "av41113057"
 
 # 一生所爱
-# av = "av35829237"
+av = "av35829237"
 
 # 大鱼
-av = "av35826571"
+# av = "av35826571"
 
-n = 8
+n = 2
 loop = 1000
 
 for i in range(loop):
     print(i)
     play(av, n)
+    time.sleep(random.randint(3, 10))
 
 print("end of all")
 

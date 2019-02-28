@@ -80,8 +80,8 @@ def play_video_1(proxy, av, t):
     chrome_options = Options()
     chrome_options.add_argument("--proxy-server=http://{0}".format(proxy))
     chrome_options.add_argument('user-agent={0}'.format(ua))
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--disable-gpu')
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--disable-gpu')
     drive = webdriver.Chrome(options=chrome_options)
     # drive = webdriver.Chrome()
     drive.set_window_size(240, 480)
@@ -160,12 +160,13 @@ def play(av, n):
 
 # 一生所爱
 av = "av35829237"
-n = 16
+n = 2
 loop = 1000
 
 for i in range(loop):
     print(i)
     play(av, n)
+    time.sleep(random.randint(3, 10))
 
 print("end of all")
 

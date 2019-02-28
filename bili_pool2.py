@@ -134,20 +134,21 @@ def play(av, n):
 
 
 # 知否
-av = "av41113057"
+# av = "av41113057"
 
 # 一生所爱
-# av = "av35829237"
+av = "av35829237"
 
 # 大鱼
 # av = "av35826571"
 
-n = 8
+n = 2
 loop = 1000
 
 for i in range(loop):
     print(i)
     play(av, n)
+    time.sleep(random.randint(3, 10))
 
 print("end of all")
 
